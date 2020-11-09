@@ -67,7 +67,7 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
-            <form id="vevaiosiForm" name="sentMessage" novalidate="novalidate">
+            <form id="vevaiosiForm" name="sentMessage" novalidate="novalidate" data-bind="submit: submit">
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Ονοματεπώνυμο</label>
@@ -89,14 +89,14 @@
                 </div>
               </div>
               <!-- <div class="control-group">
-                                                                                                                                                          <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                                                                                                                                              <label>Phone Number</label>
-                                                                                                                                                              <input class="form-control" id="phone" type="tel" placeholder="Phone Number"
-                                                                                                                                                              required="required"
-                                                                                                                                                              data-validation-required-message="Please enter your phone number." />
-                                                                                                                                                              <p class="help-block text-danger"></p>
-                                                                                                                                                          </div>
-                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                                                                                                                                                                                                    <label>Phone Number</label>
+                                                                                                                                                                                                                                    <input class="form-control" id="phone" type="tel" placeholder="Phone Number"
+                                                                                                                                                                                                                                    required="required"
+                                                                                                                                                                                                                                    data-validation-required-message="Please enter your phone number." />
+                                                                                                                                                                                                                                    <p class="help-block text-danger"></p>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                </div> -->
               <!-- Icon Divider-->
               <div class="divider-custom">
                 <div class="divider-custom-line"></div>
@@ -113,14 +113,14 @@
                 <div class="divider-custom-line"></div>
               </div>
               <!-- <div class="control-group">
-                                                                                                                                                              <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                                                                                                                                                  <label>Message</label>
-                                                                                                                                                                  <textarea class="form-control" id="message" rows="5" placeholder="Message"
-                                                                                                                                                                      required="required"
-                                                                                                                                                                      data-validation-required-message="Please enter a message."></textarea>
-                                                                                                                                                                  <p class="help-block text-danger"></p>
-                                                                                                                                                              </div>
-                                                                                                                                                          </div> -->
+                                                                                                                                                                                                                                    <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                                                                                                                                                                                                        <label>Message</label>
+                                                                                                                                                                                                                                        <textarea class="form-control" id="message" rows="5" placeholder="Message"
+                                                                                                                                                                                                                                            required="required"
+                                                                                                                                                                                                                                            data-validation-required-message="Please enter a message."></textarea>
+                                                                                                                                                                                                                                        <p class="help-block text-danger"></p>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                </div> -->
               <div class="form-group row" data-bind="foreach: reasons">
                 <!-- <label class="col-md-4 col-form-label">Multiple Radios</label> -->
                 <div class="col-md-12">
@@ -139,7 +139,7 @@
               <div id="success"></div>
               <div class="form-group">
                 <button class="btn btn-primary btn-xl" id="sendMessageButton"
-                  type="submit">Send</button>
+                  type="submit">Συνέχεια</button>
               </div>
             </form>
           </div>
@@ -611,6 +611,7 @@
     integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA=="
     crossorigin="anonymous">
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout-validation/2.0.4/knockout.validation.min.js" integrity="sha512-b99MDNv5TqiZtPKH2UeHzDAVydmgrOJEPtaPPEF8AgV86eYyqINFI/K7/7f0+R4WNTAVv8KvvpjwfOYHv5rd5g==" crossorigin="anonymous"></script>
   <script>
     function VevaiosiViewModel() {
       var self = this;
@@ -643,7 +644,7 @@
 
       self.name = ko.observable("").extend({
         required: true,
-        // minLength: 2,
+        minLength: 2,
         // validation: {
         //    message: "Please enter at least 2 characters",
         //    validator: function(value) {
@@ -653,6 +654,7 @@
       });
       self.address = ko.observable("").extend({
         required: true,
+        minLength: 5
       });
 
       self.reasons = ko.observableArray([{
@@ -680,6 +682,16 @@
           text: "Σωματική άσκηση σε εξωτερικό χώρο ή κίνηση με κατοικίδιο ζώο, ατομικά ή ανά τρία άτομα, τηρώντας στην τελευταία αυτή περίπτωση την αναγκαία απόσταση 1,5 μέτρου."
         }]);
     };
+
+    self.submit = function() {
+      self.errors = ko.validation.group(this);
+      if (self.errors().length > 0) {
+        console.log("Validation Failed")
+        self.errors.showAllMessages();
+      } else {
+        console.log("Validation Passed")
+      }
+    }
 
     const knockoutApp = document.querySelector("#knockout-app");
     ko.applyBindings(new VevaiosiViewModel(), knockoutApp);

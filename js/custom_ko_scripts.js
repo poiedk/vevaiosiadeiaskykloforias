@@ -2,6 +2,8 @@ ko.validation.init({
     errorMessageClass: "help-block text-danger"
 });
 
+ko.validation.locale('el-GR');
+
 ko.bindingHandlers.fadeVisible = {
     init: function (element, valueAccessor) {
         // Start visible/invisible according to initial value
@@ -19,10 +21,10 @@ function VevaiosiViewModel() {
     var self = this;
 
     self.name = ko.observable("").extend({
-        // required: true,
-        required: {
-            message: "Αυτό το πεδίο είναι υποχρεωτικό"
-        },
+        required: true,
+        // required: {
+        //     message: "Αυτό το πεδίο είναι υποχρεωτικό"
+        // },
         minLength: 2,
         // validation: {
         //    message: "Please enter at least 2 characters",
@@ -32,10 +34,10 @@ function VevaiosiViewModel() {
         // }
     });
     self.address = ko.observable("").extend({
-        // required: true,
-        required: {
-            message: "Αυτό το πεδίο είναι υποχρεωτικό"
-        },
+        required: true,
+        // required: {
+        //     message: "Αυτό το πεδίο είναι υποχρεωτικό"
+        // },
         minLength: 2
     });
 

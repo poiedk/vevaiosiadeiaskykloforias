@@ -77,7 +77,7 @@ function VevaiosiViewModel() {
     });
 
     self.hrefUrl = ko.computed(function(){
-        return "sms:13033?text:" + self.reason_selected() + " " + self.name() + " " + self.address();
+        return "sms:13033?body:" + self.reason_selected() + " " + self.name() + " " + self.address();
     }, self);
     
     
